@@ -1,0 +1,175 @@
+import { Notes } from 'mdx-deck'
+
+export const dollar = '$';
+
+# React
+
+---
+
+```tsx
+interface Props {
+    a: string;
+    b: number;
+}
+
+const MyComponent: React.FC<Props> = ({ a, b }) => {
+    return <span>a is {a} and b is {b}</span>;
+};
+```
+
+<Notes>
+
+- This is how you type a function react component.
+- Props interface.
+- React.FC.
+
+</Notes>
+
+---
+
+```tsx
+interface Props {
+    a: string;
+    b?: number;
+}
+
+const MyComponent: React.FC<Props> = ({ a, b = 1 }) => {
+    return <span>a is {a} and b is {b}</span>;
+};
+```
+
+<Notes>
+
+- Optional props.
+- Default props.
+
+</Notes>
+
+---
+
+# Hooks
+
+```tsx
+const [count, setCount] = useState(0)
+```
+
+<Notes>
+
+- Can be inferred, but you can also specify a type with generics.
+
+</Notes>
+
+---
+
+```tsx
+const [count, setCount] = useState<number | undefined>();
+```
+
+---
+
+```tsx
+const handleOnClick = (e: React.ClickEvent<HTMLDivElement>) => {
+    console.log('click event', e);
+};
+
+return <div onClick={handleOnClick} />;
+```
+
+<Notes>
+
+- Typing events with React.ClickEvent.
+- There is also:
+    - MouseEvent
+    - KeyboardEvent
+    - ChangeEvent
+    - DragEvent
+    - FocusEvent
+    - + more
+
+</Notes>
+
+---
+
+# `styled-components`
+
+```tsx
+interface TextProps {
+    size: number;
+    color: string;
+}
+
+const Text = styled.span<TextProps>`
+    font-size: ${dollar}{p => size}px;
+    color: ${dollar}{p => p.color};
+`;
+```
+
+<Notes>
+
+- Use generics to type your styled components.
+- Makes sure the props you pass to styled components are valid.
+
+</Notes>
+
+---
+
+```ts
+interface Theme {
+    colors: {
+        textDefault: '#000',
+    },
+}
+
+const Text = styled.span`
+    color: ${dollar}{p => p.theme.colors.missingColor};
+    // Error
+`;
+```
+
+<Notes>
+
+- You can pass your theme definition to styled-components to get theme shape autocompletion while you type. So good! 
+- Really easy to see how changes to your theme affect things.
+
+</Notes>
+
+---
+
+```tsx smaller
+import * as React from 'react';
+
+interface Props {
+    size?: 'small' | 'default' | 'large';
+    style?: 'primary' | 'secondary' | 'tertiary';
+    color?: ThemeColor | ColorType;
+    icon?: IconType;
+    iconPosition?: 'left' | 'right';
+    children?: React.ReactNode;
+}
+
+const Button: React.FC<Props> = ({ children, icon, ...otherProps}) => {
+    return (
+        <Root iconOnly={icon && !children} {...otherProps}>
+            {icon && (
+                <Icon
+                    type={icon}
+                    position={props.iconPosition}
+                    iconOnly={!children}
+                    size={props.size === 'small' ? 18 : 24}
+                />
+            )}
+            {children}
+        </Root>
+    );
+};
+
+export default Button;
+```
+
+<Notes>
+
+- Stripped down example of a 9Press button component.
+- Union props.
+- Powerful component with lots of permutations but easy to maintain with types.
+
+</Notes>

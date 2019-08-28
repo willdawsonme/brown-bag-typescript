@@ -1,0 +1,18 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "description": "Typescript brown bag.",
+  "main": "deck.mdx",
+  "scripts": {
+    "start": "mdx-deck deck.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mdx-deck": "^2.5.0"
+  },
+  "dependencies": {
+    "react-live": "^2.1.2",
+    "styled-components": "^4.3.2"
+  }
+}

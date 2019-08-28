@@ -1,0 +1,323 @@
+import { Notes } from 'mdx-deck'
+
+export const dollar = "$";
+
+# Primitive Types
+
+---
+
+```tsx
+
+const name: string = 'Barney';
+const count: number = 1;
+const isCorrect: boolean = true;
+const array: string[] = ['Barney', 'Liam'];
+const tuple: [string, number] = ['One', 2];
+
+```
+
+---
+
+```ts
+void
+
+undefined
+
+null
+```
+
+<Notes>
+
+</Notes>
+
+---
+
+# `enum`
+
+```ts
+enum Template {
+    Article,
+    Gallery,
+    LiveBlog,
+}
+
+const template: Template = Template.Article;
+```
+
+<Notes>
+
+- Enums are both types and values.
+- By default, the value is a number, but you can make them strings.
+
+</Notes>
+
+---
+
+
+```ts
+enum Template {
+    Article = 'article',
+    Gallery = 'gallery',
+    LiveBlog = 'live blog',
+}
+
+if (item.template === Template.Article) {
+    console.log('Item is an article');
+}
+```
+
+---
+
+# `any`
+
+```ts
+const something: any = 'string';
+something = 3;
+something = [1, 2, 3];
+```
+
+<Notes>
+
+- Avoid it.
+- Generally points to holes or issues with your types.
+- Ignoring them with any leaves you open to bugs.
+
+</Notes>
+
+---
+
+# Variables
+
+---
+
+```ts
+let message = 'Hello, world!';
+message = 1; // Error
+```
+
+<Notes>
+
+- Typescript will infer the variable type as string.
+- Assigning another type will trigger an error.
+
+</Notes>
+
+---
+
+```ts
+let message: string;
+message = 'Hello, world!';
+```
+
+<Notes>
+
+- You can also be explicit.
+- You should specify a type if there is no initial value.
+- 'a' would otherwise have been inferred as 'any'.
+
+</Notes>
+
+---
+
+# Functions
+
+---
+
+```ts
+const greet = (name: string): string => {
+    return `Hello, ${dollar}{name}!`;
+};
+```
+
+<Notes>
+
+- Define variable types and return types.
+- You can remove the return type to infer it, but it's best to define it.
+
+</Notes>
+
+---
+
+```ts
+const greet = (name?: string): string => {
+    return `Hello, ${dollar}{name || 'world'}!`;
+};
+```
+
+<Notes>
+
+- You can define optional types with '?'
+- 'name' will become 'string | undefined'
+- Difference between '?' and '| undefined'
+    - '| undefined' will always force you to provide a value.
+    - '?' lets you not pass the value
+
+</Notes>
+
+---
+
+# Type Alias
+
+```ts
+type Name = string;
+type NameFn = () => string;
+```
+
+<Notes>
+
+- Creates a new name for a type.
+
+</Notes>
+
+---
+
+# Interface
+
+```ts
+interface MousePosition {
+    x: number;
+    y: number;
+}
+```
+
+<Notes>
+
+- Describe the shape of something.
+- Properties can be optional.
+
+</Notes>
+
+---
+
+# Intersections
+
+```ts
+interface A {
+    a: string;
+}
+
+interface B {
+    b: number;
+}
+
+interface C {
+    c: boolean;
+}
+
+type ABC = A & B & C;
+```
+
+<Notes>
+
+- ABC has all properties of A, B and C.
+
+</Notes>
+
+---
+
+# Unions
+
+```ts
+type Pets = 'dog' | 'cat' | 'bird';
+
+type Float = 'left' | 'right' | null;
+
+interface Item {
+    headline: string | null;
+}
+```
+
+<Notes>
+
+- Very useful for types that can only be a subset of values.
+
+</Notes>
+
+---
+
+# Discriminated Unions
+
+```ts
+interface Image {
+    type: 'image';
+    id: string;
+}
+
+interface Video {
+    type: 'video';
+    vmsId: string;
+}
+
+type Media = Image | Video;
+const media = {} as Media;
+
+console.log(media.id); // Error
+console.log(media.vmsId); // Error
+```
+
+<Notes>
+
+- Incredibly useful feature. 
+- Great for media in 9Press!
+- Could be used for typing content api responses.
+
+</Notes>
+
+---
+
+```ts
+if (media.type === 'image') {
+    console.log(media.id);    // :)
+} else {
+    console.log(media.vmsId); // :)
+}
+```
+
+<Notes>
+
+- If you have a common literal property, you can refine the type of your object and access certain properties.
+- Don't need to check the type of the media in the else statement as there is only 2 options.
+- EXHAUSTIVE CHECKS
+
+</Notes>
+
+---
+
+```ts
+switch (media.type) {
+    case 'image':
+        console.log('Media is an image');
+    case 'video':
+        console.log('Media is a video');
+}
+```
+
+<Notes>
+
+- No need to have a default handler.
+- If you add a new media type (social), Typescript will throw warnings to let you know that you've missed a case!
+
+</Notes>
+
+---
+
+# Generics
+
+```ts
+const get = <T>(value: T): T => {
+    return value;
+};
+
+get('test') // string
+get(1) // number
+
+type StringArray = Array<string>;
+type NumberArray = Array<number>;
+```
+
+<Notes>
+
+- Parameterise types.
+- Won't use them too often, but good to know how they work.
+
+</Notes>
