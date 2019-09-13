@@ -4,12 +4,16 @@
   "description": "Typescript brown bag.",
   "main": "deck.mdx",
   "scripts": {
-    "start": "mdx-deck deck.js"
+    "start": "mdx-deck deck.js",
+    "build": "mdx-deck build deck.js",
+    "deploy": "surge dist --domain https://brown-bag-typescript.surge.sh"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "mdx-deck": "^2.5.0"
+    "file-loader": "^4.2.0",
+    "mdx-deck": "^2.5.0",
+    "surge": "^0.21.3"
   },
   "dependencies": {
     "react-live": "^2.1.2",
