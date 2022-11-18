@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "file-loader": "^4.2.0",
-    "mdx-deck": "^2.5.0",
+    "mdx-deck": "^4.1.1",
     "surge": "^0.21.3"
   },
   "dependencies": {
